@@ -1,20 +1,12 @@
 package com.sgp.erp.model;
 
+import jakarta.persistence.*;
+import lombok.Data;
 import java.time.LocalDate;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
-import lombok.Data;
-
 @Entity
-@Table(name = "attendance")
 @Data
+@Table(name = "attendance", indexes = { @Index(name = "idx_student_date", columnList = "student_id, attendance_date") })
 public class Attendance {
 
 	@Id
@@ -24,9 +16,11 @@ public class Attendance {
 	@ManyToOne
 	@JoinColumn(name = "student_id", nullable = false)
 	private Student student;
-	@Column(name = "date", columnDefinition = "DATE")
-	private LocalDate date;
-	@Column(name = "status", columnDefinition = "TINYINT")
-	private byte status;
+
+	@Column(name = "attendance_date", nullable = false)
+	private LocalDate attendanceDate;
+
+	@Column(columnDefinition = "JSON", nullable = false)
+	private String sessions;
 
 }
