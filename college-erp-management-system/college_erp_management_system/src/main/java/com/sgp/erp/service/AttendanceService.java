@@ -24,20 +24,14 @@ public class AttendanceService {
 
         List<Attendance> attendances = attendanceDao.getAttendanceByDateAndRegisterNo(date, registrationNumber);
         ResponseStructure<List<Attendance>> structure = new ResponseStructure<List<Attendance>>();
-        try {
-            if (!attendances.isEmpty()) {
-                structure.setData(attendances);
-                structure.setMessage("Attendances found");
-                structure.setStatus(HttpStatus.OK.value());
-                return new ResponseEntity<ResponseStructure<List<Attendance>>>(structure, HttpStatus.OK);
-            }
-            throw new DataNotFoundException();
-        } catch (DataNotFoundException e) {
-            structure.setData(null);
-            structure.setMessage(e.getMessage());
-            structure.setStatus(HttpStatus.NOT_FOUND.value());
-            return new ResponseEntity<>(structure, HttpStatus.NOT_FOUND);
+        
+        if (!attendances.isEmpty()) {
+            structure.setData(attendances);
+            structure.setMessage("Attendances found");
+            structure.setStatus(HttpStatus.OK.value());
+            return new ResponseEntity<ResponseStructure<List<Attendance>>>(structure, HttpStatus.OK);
         }
+        throw new DataNotFoundException();
     }
 
     public ResponseEntity<ResponseStructure<List<Attendance>>> getAttendanceByRegisterNoAndDateRange(String registerNo,
@@ -46,20 +40,14 @@ public class AttendanceService {
         List<Attendance> attendances = attendanceDao.getAttendanceByRegisterNoAndDateRange(registerNo, startDate,
                 endDate);
         ResponseStructure<List<Attendance>> structure = new ResponseStructure<List<Attendance>>();
-        try {
-            if (!attendances.isEmpty()) {
-                structure.setData(attendances);
-                structure.setMessage("Attendances found");
-                structure.setStatus(HttpStatus.OK.value());
-                return new ResponseEntity<ResponseStructure<List<Attendance>>>(structure, HttpStatus.OK);
-            }
-            throw new DataNotFoundException();
-        } catch (DataNotFoundException e) {
-            structure.setData(null);
-            structure.setMessage(e.getMessage());
-            structure.setStatus(HttpStatus.NOT_FOUND.value());
-            return new ResponseEntity<>(structure, HttpStatus.NOT_FOUND);
+
+        if (!attendances.isEmpty()) {
+            structure.setData(attendances);
+            structure.setMessage("Attendances found");
+            structure.setStatus(HttpStatus.OK.value());
+            return new ResponseEntity<ResponseStructure<List<Attendance>>>(structure, HttpStatus.OK);
         }
+        throw new DataNotFoundException();
     }
 
 }

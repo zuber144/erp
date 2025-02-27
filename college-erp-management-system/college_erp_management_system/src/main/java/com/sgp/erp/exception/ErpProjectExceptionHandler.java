@@ -11,18 +11,8 @@ import com.sgp.erp.dto.ResponseStructure;
 @RestControllerAdvice()
 public class ErpProjectExceptionHandler extends ResponseEntityExceptionHandler {
 
-    // @ExceptionHandler(DataNotFoundException.class)
-    // public ResponseEntity<ResponseStructure<String>>
-    // handleDNFE(DataNotFoundException ex) {
-    // ResponseStructure<String> structure = new ResponseStructure<>();
-    // structure.setData(null);
-    // structure.setMessage(ex.getMessage());
-    // structure.setStatus(HttpStatus.NOT_FOUND.value());
-    // return new ResponseEntity<>(structure, HttpStatus.NOT_FOUND);
-    // }
-
     @ExceptionHandler({ StudentNotFoundException.class, DataNotFoundException.class })
-    public ResponseEntity<ResponseStructure<String>> handleSNFE(StudentNotFoundException ex) {
+    public ResponseEntity<ResponseStructure<String>> handleSNFE(Exception ex) {
         ResponseStructure<String> structure = new ResponseStructure<>();
         structure.setData(null);
         structure.setMessage(ex.getMessage());
