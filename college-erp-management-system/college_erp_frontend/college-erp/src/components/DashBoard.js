@@ -1,11 +1,16 @@
 import { useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import BottomNavbar from "./BottomNavBar"; // Import Bottom Navbar
+import Attendance from "./Attendance"; // Import Attendance Component
+import Results from "./Results"; // Import Results Component
 
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState("Dashboard");
 
   const navigate = useNavigate();
+  const location = useLocation();
+  const student = location.state?.student.data;
 
   return (
     <div className="h-screen w-full bg-gray-300 flex flex-col">
@@ -24,8 +29,13 @@ export default function Dashboard() {
           <div className="flex items-center gap-4">
             <FaUserCircle className="text-gray-300 text-3xl" />
             <div className="text-white">
-              <p className="font-semibold">Mohammed Nawaz</p>
-              <p className="text-xs text-gray-300">Reg: 459CS22027 | 6th Sem</p>
+              <p className="font-semibold">
+                {String(student.name).toUpperCase()}
+              </p>
+              <p className="text-xs text-gray-300">
+                Reg: {String(student.registrationNumber).toUpperCase()} |{" "}
+                {student.sem} Sem
+              </p>
             </div>
           </div>
           <button
@@ -41,45 +51,32 @@ export default function Dashboard() {
 
       {/* Main Content */}
       <div className="flex flex-col items-center justify-center flex-grow">
-        {activeTab === "Dashboard" ? (
+        {activeTab === "Dashboard" && (
           <div
             className="bg-[#2D2A43] p-8 rounded-lg shadow-2xl w-96 flex flex-col items-center transform hover:scale-105 transition-transform duration-300"
             style={{ boxShadow: "0 10px 25px rgba(149, 105, 216, 0.4)" }}
           >
-            <div className="bg-[#3D3A53] p-6 rounded-full mb-4 shadow-inner">
+            <div className="bg-[#2D2A43] p-6 rounded-full mb-4 shadow-inner">
               <FaUserCircle className="text-gray-400 text-8xl" />
             </div>
-            <div className="w-full bg-[#3D3A53] p-6 rounded-lg text-center shadow-md">
-              <h2 className="text-xl font-semibold text-white">
-                Name: Mohammed Nawaz
+            <div className="w-full bg-[#c4c3ce] p-6 rounded-lg text-center shadow-md">
+              <h2 className="text-xl font-semibold text-black">
+                Name: {String(student.name).toUpperCase()}
               </h2>
-              <p className="text-white mt-2">Reg: 459CS22027</p>
-              <p className="text-white">Sem: 6th Sem</p>
+              <p className="text-black mt-2">
+                Reg: {String(student.registrationNumber).toUpperCase()}
+              </p>
+              <p className="text-black">Sem: {student.sem} Sem</p>
             </div>
           </div>
-        ) : (
-          <div className="text-2xl font-semibold text-[#2D2A43]">
-            {activeTab} Section
-          </div>
         )}
+
+        {activeTab === "Attendance" && <Attendance student={student} />}
+        {activeTab === "Results" && <Results student={student} />}
       </div>
 
       {/* Bottom Navigation */}
-      <div className="bg-gray-200 py-4 flex justify-center gap-12 text-xl font-semibold">
-        {["Dashboard", "Attendance", "Results"].map((tab) => (
-          <button
-            key={tab}
-            className={`px-6 py-3 rounded ${
-              activeTab === tab
-                ? "bg-[#9569D8] text-white shadow-md"
-                : "text-[#2D2A43] hover:bg-gray-300"
-            }`}
-            onClick={() => setActiveTab(tab)}
-          >
-            {tab}
-          </button>
-        ))}
-      </div>
+      <BottomNavbar activeTab={activeTab} setActiveTab={setActiveTab} />
     </div>
   );
 }

@@ -19,10 +19,11 @@ const Login = () => {
         null,
         { headers: { "Content-Type": "application/x-www-form-urlencoded" } }
       );
+      const data = await response.data;
       console.log(JSON.stringify(response.data));
       if (response.status === 200) {
         // ✅ If HTTP status is 200, redirect to Dashboard
-        navigate("/dashboard");
+        navigate("/dashboard", { state: { student: data } });
       } else {
         alert("Invalid registration number. Try again!");
       }
