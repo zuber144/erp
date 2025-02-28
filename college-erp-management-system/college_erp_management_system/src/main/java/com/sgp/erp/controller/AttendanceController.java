@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 // import org.springframework.security.core.Authentication;
 // import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +21,7 @@ import com.sgp.erp.model.Attendance;
 // import com.sgp.erp.repository.AttendanceRepository;
 import com.sgp.erp.service.AttendanceService;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/students")
 public class AttendanceController {
@@ -52,9 +54,9 @@ public class AttendanceController {
     // }
 
     // Get attendance by date and register number
-    @GetMapping("/{registerNo}/date/{date}")
+    @GetMapping("/{registerNo}/date")
     public ResponseEntity<ResponseStructure<List<Attendance>>> getAttendanceByDate(@PathVariable String registerNo,
-            @PathVariable LocalDate date) {
+            @RequestParam LocalDate date) {
         return attendanceService.getAttendanceByDateAndRegisterNo(date, registerNo);
     }
 
