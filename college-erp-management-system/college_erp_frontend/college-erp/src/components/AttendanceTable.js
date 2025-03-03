@@ -23,23 +23,23 @@ export const AttendanceTable = ({ attendanceData }) => {
               }`}
             >
               <td className="px-6 py-3">
-                {"Session: "}
+                {/* {"Session: "} */}
                 {(() => {
                   switch (String(record.session)) {
                     case "1":
-                      return "9 - 10";
+                      return "9 AM - 10 AM";
                     case "2":
-                      return "10 - 11";
+                      return "10 AM - 11 AM";
                     case "3":
-                      return "11 - 12";
+                      return "11 AM - 12 PM";
                     case "4":
-                      return "1 - 2";
+                      return "1 PM - 2 PM";
                     case "5":
-                      return "2 - 3";
+                      return "2 PM - 3 PM";
                     case "6":
-                      return "3 - 4";
+                      return "3 PM - 4 PM";
                     case "7":
-                      return "4 - 5";
+                      return "4 PM - 5 PM";
                     default:
                       return "Unknown Session";
                   }

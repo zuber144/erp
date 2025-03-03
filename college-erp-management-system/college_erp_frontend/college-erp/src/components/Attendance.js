@@ -4,6 +4,7 @@ import { DatePicker } from "./Date-picker";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 import { AttendanceTable } from "./AttendanceTable";
+import { AttendanceRangeTable } from "./AttendanceRangeTable";
 
 const Attendance = () => {
   const [mode, setMode] = useState("single");
@@ -13,10 +14,9 @@ const Attendance = () => {
     end: new Date(),
   });
   const [attendanceData, setAttendanceData] = useState([]);
+  const [loading, setLoading] = useState(false); // Added loading state to prevent auto-execution
 
-  const location = useLocation();
-  const student = location.state?.student.data;
-  const registerNo = student.registrationNumber;
+  const registerNo = useLocation().state?.student?.data?.registrationNumber;
 
   const handleDateChange = (date) => setDate(date);
   const handleStartDateChange = (date) =>
@@ -25,8 +25,14 @@ const Attendance = () => {
     setDateRange((prev) => ({ ...prev, end: date }));
 
   const handleSearch = async () => {
-    if (mode === "range") {
-      try {
+    if (!registerNo) {
+      alert("Student data not found!");
+      return;
+    }
+    setLoading(true);
+
+    try {
+      if (mode === "range") {
         const response = await axios.get(`/students/${registerNo}/range`, {
           params: {
             startDate: format(dateRange.start, "yyyy-MM-dd"),
@@ -36,33 +42,51 @@ const Attendance = () => {
         });
 
         const data = response.data;
-        console.log(JSON.stringify(data));
-      } catch (error) {
-        alert(
-          error.response?.statusText ||
-            "Network error or server not responding."
+        const fetchedAttendanceData = data.data.map(
+          ({ attendanceDate, sessions }) => ({
+            attendanceDate,
+            sessions: JSON.parse(sessions),
+          })
         );
-      }
-    } else if (mode === "single") {
-      try {
+
+        setAttendanceData(fetchedAttendanceData);
+      } else {
         const response = await axios.get(`/students/${registerNo}/date`, {
           params: { date: format(date, "yyyy-MM-dd") },
           headers: { "Content-Type": "application/x-www-form-urlencoded" },
         });
 
         const data = response.data;
-        const fetchedAttendanceData = Array.isArray(
-          JSON.parse(data.data[0]?.sessions)
-        )
+        const parsedSessions = Array.isArray(JSON.parse(data.data[0]?.sessions))
           ? JSON.parse(data.data[0]?.sessions)
           : [];
-        setAttendanceData(fetchedAttendanceData);
-      } catch (error) {
-        alert(
-          error.response?.statusText ||
-            "Network error or server not responding."
+
+        // Handle missing sessions
+        const totalSessions = 6;
+        const filledSessions = Array.from(
+          { length: totalSessions },
+          (_, i) => parsedSessions[i] || "no-data"
         );
+
+        setAttendanceData(filledSessions);
       }
+    } catch (error) {
+      if (error.response) {
+        if (error.response.status === 401)
+          alert("Unauthorized: Invalid credentials.");
+        else if (error.response.status === 404)
+          alert("Attendance not found. Enter a valid date.");
+        else
+          alert(`Error ${error.response.status}: ${error.response.statusText}`);
+      } else {
+        alert("Network error or server not responding.");
+      }
+      console.error(
+        "Error fetching attendance:",
+        error.response?.data || error.message
+      );
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -84,7 +108,10 @@ const Attendance = () => {
                   ? "bg-blue-600 text-white shadow-md"
                   : "bg-gray-200 text-gray-700 hover:bg-gray-300"
               }`}
-              onClick={() => setMode(m)}
+              onClick={() => {
+                setMode(m);
+                setAttendanceData([]); // Clear data on mode switch to prevent unnecessary display
+              }}
             >
               {m === "range" ? "📆 Date Range" : "📍 Single Date"}
             </button>
@@ -120,20 +147,20 @@ const Attendance = () => {
         <button
           className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-medium flex items-center shadow-md"
           onClick={handleSearch}
+          disabled={loading}
         >
-          <span className="mr-2">🔍</span> Search
+          <span className="mr-2">🔍</span> {loading ? "Searching..." : "Search"}
         </button>
       </div>
-      {mode === "single" ? (
-        <div className="bg-white rounded-lg shadow-sm p-6 flex-1 overflow-auto">
-          <AttendanceTable attendanceData={attendanceData} />
-        </div>
-      ) : (
-        <div className="bg-white rounded-lg shadow-sm p-6 flex-1 overflow-auto">
-          <AttendanceTable attendanceData={attendanceData} />
-        </div>
-      )}
+
       {/* Attendance Table Section */}
+      <div className="bg-white rounded-lg shadow-sm p-6 flex-1 overflow-auto">
+        {mode === "single" ? (
+          <AttendanceTable attendanceData={attendanceData} />
+        ) : (
+          <AttendanceRangeTable attendanceData={attendanceData} />
+        )}
+      </div>
     </div>
   );
 };
