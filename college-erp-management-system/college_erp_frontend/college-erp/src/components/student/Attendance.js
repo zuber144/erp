@@ -3,8 +3,7 @@ import { format } from "date-fns";
 import { DatePicker } from "./Date-picker";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
-import { AttendanceTable } from "./AttendanceTable";
-import { AttendanceRangeTable } from "./AttendanceRangeTable";
+import { AttendanceTable, AttendanceRangeTable } from "./AttendanceRangeTable";
 
 const Attendance = () => {
   const [mode, setMode] = useState("single");
@@ -14,7 +13,7 @@ const Attendance = () => {
     end: new Date(),
   });
   const [attendanceData, setAttendanceData] = useState([]);
-  const [loading, setLoading] = useState(false); // Added loading state to prevent auto-execution
+  const [loading, setLoading] = useState(false);
 
   const registerNo = useLocation().state?.student?.data?.registrationNumber;
 
@@ -61,14 +60,7 @@ const Attendance = () => {
           ? JSON.parse(data.data[0]?.sessions)
           : [];
 
-        // Handle missing sessions
-        const totalSessions = 6;
-        const filledSessions = Array.from(
-          { length: totalSessions },
-          (_, i) => parsedSessions[i] || "no-data"
-        );
-
-        setAttendanceData(filledSessions);
+        setAttendanceData(parsedSessions);
       }
     } catch (error) {
       if (error.response) {
@@ -91,26 +83,26 @@ const Attendance = () => {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row gap-6 p-6 bg-gray-100 rounded-lg shadow-md max-w-7xl mx-auto">
+    <div className="flex flex-col lg:flex-row gap-6 p-4 md:p-6 bg-gray-100 rounded-lg shadow-md max-w-7xl mx-auto">
       {/* Form Section */}
-      <div className="bg-white rounded-lg shadow-sm p-6 flex-1">
-        <h2 className="text-2xl font-bold text-gray-800 flex items-center mb-6">
+      <div className="bg-white rounded-lg shadow-sm p-4 md:p-6 flex-1">
+        <h2 className="text-lg md:text-2xl font-bold text-gray-800 flex items-center mb-4 md:mb-6">
           <span className="text-blue-600 mr-2">📅</span> Attendance Dashboard
         </h2>
 
         {/* Mode Selection Tabs */}
-        <div className="flex mb-6 space-x-4">
+        <div className="flex mb-4 md:mb-6 space-x-2 md:space-x-4">
           {["range", "single"].map((m) => (
             <button
               key={m}
-              className={`px-5 py-3 rounded-lg font-medium transition-all duration-200 ${
+              className={`px-3 md:px-5 py-2 md:py-3 rounded-lg font-medium transition-all duration-200 ${
                 mode === m
                   ? "bg-blue-600 text-white shadow-md"
                   : "bg-gray-200 text-gray-700 hover:bg-gray-300"
               }`}
               onClick={() => {
                 setMode(m);
-                setAttendanceData([]); // Clear data on mode switch to prevent unnecessary display
+                setAttendanceData([]);
               }}
             >
               {m === "range" ? "📆 Date Range" : "📍 Single Date"}
@@ -119,9 +111,9 @@ const Attendance = () => {
         </div>
 
         {/* Date Pickers */}
-        <div className="mb-6">
+        <div className="mb-4 md:mb-6">
           {mode === "range" ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4">
               <DatePicker
                 label="Start Date"
                 selected={dateRange.start}
@@ -145,7 +137,7 @@ const Attendance = () => {
 
         {/* Search Button */}
         <button
-          className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-medium flex items-center shadow-md"
+          className="bg-blue-600 hover:bg-blue-700 text-white px-6 md:px-8 py-2 md:py-3 rounded-lg font-medium flex items-center shadow-md"
           onClick={handleSearch}
           disabled={loading}
         >
@@ -154,7 +146,7 @@ const Attendance = () => {
       </div>
 
       {/* Attendance Table Section */}
-      <div className="bg-white rounded-lg shadow-sm p-6 flex-1 overflow-auto">
+      <div className="bg-white rounded-lg shadow-sm p-4 md:p-6 flex-1 overflow-y-auto">
         {mode === "single" ? (
           <AttendanceTable attendanceData={attendanceData} />
         ) : (

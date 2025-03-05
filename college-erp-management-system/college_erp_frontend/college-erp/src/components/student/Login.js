@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom"; // ✅ Import useNavigate
-import "../App.css";
 import axios from "axios";
 
 const Login = () => {
