@@ -5,6 +5,9 @@ import DashBoard from "./components/dashboard/DashBoard";
 import Home from "./components/Home";
 import "./App.css";
 import RoleBasedLogin from "./components/faculty/RoleBasedLogin";
+import HodDashboard from "./components/dashboard/HodDashboard";
+import FacultyDashboard from "./components/dashboard/FacultyDashboard";
+
 // import Admin from "./components/Admin";
 
 const App = () => {
@@ -15,6 +18,9 @@ const App = () => {
         <Route path="/login/student" element={<Login />} />
         <Route path="/dashBoard" element={<DashBoard />} />
         <Route path="/role-based-login" element={<RoleBasedLogin />} />
+        <Route path="/hod-dashboard" element={<HodDashboard />} />
+        <Route path="/faculty-dashboard" element={<FacultyDashboard />} />
+
         {/* <Route path="/admin" element={<Admin />} /> */}
         {/* Add more routes here when needed */}
       </Routes>
