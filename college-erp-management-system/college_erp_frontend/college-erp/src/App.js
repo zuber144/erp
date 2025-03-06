@@ -4,9 +4,10 @@ import Login from "./components/student/Login";
 import DashBoard from "./components/dashboard/DashBoard";
 import Home from "./components/Home";
 import "./App.css";
-import RoleBasedLogin from "./components/faculty/RoleBasedLogin";
+import RoleBasedLogin from "./components/RoleBasedLogin";
 import HodDashboard from "./components/dashboard/HodDashboard";
 import FacultyDashboard from "./components/dashboard/FacultyDashboard";
+import AdminDashboard from "./components/admin/AdminDashboard";
 
 // import Admin from "./components/Admin";
 
@@ -20,6 +21,7 @@ const App = () => {
         <Route path="/role-based-login" element={<RoleBasedLogin />} />
         <Route path="/hod-dashboard" element={<HodDashboard />} />
         <Route path="/faculty-dashboard" element={<FacultyDashboard />} />
+        <Route path="/admin-dashboard" element={<AdminDashboard />} />
 
         {/* <Route path="/admin" element={<Admin />} /> */}
         {/* Add more routes here when needed */}

@@ -42,7 +42,7 @@ export default function Dashboard() {
           </div>
           <button
             className="bg-[#9569D8] hover:bg-[#ac3131] px-3 md:px-4 py-1 md:py-2 rounded text-white font-medium text-xs md:text-sm"
-            onClick={() => navigate("/login/student")}
+            onClick={() => navigate("/")}
           >
             Log Out
           </button>

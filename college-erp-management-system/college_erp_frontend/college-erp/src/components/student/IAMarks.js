@@ -28,6 +28,7 @@ const IAMarks = () => {
           setLoading(false);
           return;
         }
+        console.log(rawIaMarks)
 
         // Parse JSON from the "iaMarks" field
         const parsedIaMarks = JSON.parse(rawIaMarks);

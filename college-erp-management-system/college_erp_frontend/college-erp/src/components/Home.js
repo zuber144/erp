@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 const Home = () => {
   const navigate = useNavigate();
 
@@ -27,19 +27,18 @@ const Home = () => {
             </div>
           </div>
           <div className="flex items-center space-x-6">
-            <a
-              href="#"
+            <Link
               className="hover:text-purple-300 transition duration-300 font-medium px-4 py-2 rounded-lg hover:bg-[#3D3A63]"
-              onClick={() => navigate("/role-based-login")}
+              to="/role-based-login"
             >
               Login
-            </a>
-            <a
-              href="#"
+            </Link>
+            <Link
               className="hover:text-purple-300 transition duration-300 font-medium px-4 py-2 rounded-lg hover:bg-[#3D3A63]"
+              to="/login/student"
             >
               Student Search
-            </a>
+            </Link>
           </div>
         </div>
       </nav>
@@ -80,7 +79,10 @@ const Home = () => {
               <p className="text-gray-300 mb-6">
                 Access and manage student records efficiently.
               </p>
-              <button className="bg-[#9569D8] hover:bg-purple-700 text-white py-2 px-6 rounded-lg transition duration-300 shadow-md hover:shadow-lg font-medium">
+              <button
+                className="bg-[#9569D8] hover:bg-purple-700 text-white py-2 px-6 rounded-lg transition duration-300 shadow-md hover:shadow-lg font-medium"
+                onClick={() => navigate("/role-based-login")}
+              >
                 Access
               </button>
             </div>
@@ -108,7 +110,10 @@ const Home = () => {
               <p className="text-gray-300 mb-6">
                 Monitor and record student attendance easily.
               </p>
-              <button className="bg-[#9569D8] hover:bg-purple-700 text-white py-2 px-6 rounded-lg transition duration-300 shadow-md hover:shadow-lg font-medium">
+              <button
+                className="bg-[#9569D8] hover:bg-purple-700 text-white py-2 px-6 rounded-lg transition duration-300 shadow-md hover:shadow-lg font-medium"
+                onClick={() => navigate("/login/student")}
+              >
                 Track
               </button>
             </div>
@@ -136,7 +141,10 @@ const Home = () => {
               <p className="text-gray-300 mb-6">
                 Manage and publish examination results.
               </p>
-              <button className="bg-[#9569D8] hover:bg-purple-700 text-white py-2 px-6 rounded-lg transition duration-300 shadow-md hover:shadow-lg font-medium">
+              <button
+                className="bg-[#9569D8] hover:bg-purple-700 text-white py-2 px-6 rounded-lg transition duration-300 shadow-md hover:shadow-lg font-medium"
+                onClick={() => navigate("/login/student")}
+              >
                 Results
               </button>
             </div>
@@ -161,7 +169,10 @@ const Home = () => {
               </svg>
               Student Login
             </button>
-            <button className="bg-gradient-to-r from-[#9569D8] to-[#8559C8] hover:from-[#8559C8] hover:to-[#7549B8] text-white py-3 px-8 rounded-lg font-semibold transition duration-300 shadow-lg flex items-center">
+            <button
+              className="bg-gradient-to-r from-[#9569D8] to-[#8559C8] hover:from-[#8559C8] hover:to-[#7549B8] text-white py-3 px-8 rounded-lg font-semibold transition duration-300 shadow-lg flex items-center"
+              onClick={() => navigate("/role-based-login")}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-5 w-5 mr-2"
@@ -172,7 +183,10 @@ const Home = () => {
               </svg>
               Faculty Login
             </button>
-            <button className="bg-gradient-to-r from-[#9569D8] to-[#8559C8] hover:from-[#8559C8] hover:to-[#7549B8] text-white py-3 px-8 rounded-lg font-semibold transition duration-300 shadow-lg flex items-center">
+            <button
+              className="bg-gradient-to-r from-[#9569D8] to-[#8559C8] hover:from-[#8559C8] hover:to-[#7549B8] text-white py-3 px-8 rounded-lg font-semibold transition duration-300 shadow-lg flex items-center"
+              onClick={() => navigate("/admin-dashboard")}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-5 w-5 mr-2"

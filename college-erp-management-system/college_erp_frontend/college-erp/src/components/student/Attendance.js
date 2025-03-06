@@ -56,10 +56,11 @@ const Attendance = () => {
         });
 
         const data = response.data;
+
         const parsedSessions = Array.isArray(JSON.parse(data.data[0]?.sessions))
           ? JSON.parse(data.data[0]?.sessions)
           : [];
-
+        console.log(data.data[0]?.sessions);
         setAttendanceData(parsedSessions);
       }
     } catch (error) {
