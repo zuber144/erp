@@ -9,8 +9,6 @@ import HodDashboard from "./components/dashboard/HodDashboard";
 import FacultyDashboard from "./components/dashboard/FacultyDashboard";
 import AdminDashboard from "./components/admin/AdminDashboard";
 
-// import Admin from "./components/Admin";
-
 const App = () => {
   return (
     <BrowserRouter>
@@ -22,9 +20,6 @@ const App = () => {
         <Route path="/hod-dashboard" element={<HodDashboard />} />
         <Route path="/faculty-dashboard" element={<FacultyDashboard />} />
         <Route path="/admin-dashboard" element={<AdminDashboard />} />
-
-        {/* <Route path="/admin" element={<Admin />} /> */}
-        {/* Add more routes here when needed */}
       </Routes>
     </BrowserRouter>
   );
